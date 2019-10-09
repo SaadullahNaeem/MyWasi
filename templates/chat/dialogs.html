@@ -1,0 +1,729 @@
+{# This template is here just to demonstrate how to customize the default one. #}
+{# It has none to very few changes #}
+{% extends "base.html" %}
+{% load static %}
+{% load i18n chat_tags %}
+<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+
+{% block css %}
+    <style>
+        .card-block{
+            padding: 0.8rem !important;
+        }
+
+        .avatar{
+            float: left;
+            display: block;
+            height: 40px;
+            width: 40px;
+            margin: -1px 12px -1px 0;
+            -webkit-border-radius: 50%;
+            border-radius: 50%;
+            border: solid 1px transparent;
+            -webkit-transition: all 0.2s ease-in-out;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .coname{
+            color: #3a3a3a;
+            font-weight: 600;
+            font-size: smaller;
+        }
+        .last{
+            display: block;
+            color: #979797;
+            font-weight: 600;
+            font-size: small;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .ldate{
+            color: #979797;
+            font-weight: 600;
+            font-size: small;
+        }
+        .ctitle{
+            margin: 0 4px;
+        }
+
+        .circle {
+            border-radius: 50%;
+            display: inline-block;
+            height: 6px;
+            margin-left: 4px;
+            width: 6px;
+        }
+
+        .circle_con {
+            border-radius: 100%;
+            display: inline-block;
+            height: 5px;
+            width: 5px;
+        }
+
+        .userOffline>section>div>h5>.circle_con{
+            background: rgb(100, 102, 99);
+        }
+
+        .userOnline>section>div>h5>.circle_con{
+            background: rgb(66, 183, 42);
+        }
+
+        .chatbox{
+            margin: 2%;
+        }
+
+        .card-head{
+            padding: .75rem 1.25rem;
+            background: #ffffff;
+        }
+
+        .sendBtn{
+            position: absolute;
+            right: 35%;
+            top: 10%;
+        }
+        .sendBtn>img{
+            width: 40px;
+            height: 40px;
+            transform: rotate(22deg);
+        }
+
+        .user_time{
+            font-size : x-small;
+        }
+
+        .myMd2{
+            text-align: center;
+            padding: 0;
+        }
+
+        .oppoMd2{
+            text-align: center;
+            padding: 0;
+        }
+
+        .msgRow{
+            margin: 2% -4% !important;
+        }
+
+        .capsule {
+            padding: 2% 4%;
+            min-width: 5%;
+            margin: 0 auto;
+            border-radius: 30px;
+            background : white;
+        }
+
+        .capsule_me {
+            padding: 2% 4%;
+            min-width: 5%;
+            margin: 0 auto;
+            border-radius: 30px;
+            background : #2A8BF2;
+            text-align: left;
+            color: white;
+        }
+        .msp{
+            font-size: smaller;
+        }
+
+        .selecte{
+            background : #2A8BF2;
+            -moz-box-shadow: 0 0 3px rgb(134,134,134);
+            -webkit-box-shadow: 0 0 25px rgba(0, 0, 0, 0.55) !important;
+            margin: 5px 15px 7px 17px !important;
+            border-color: #2A8BF2 !important;
+        }
+
+        .myCard{
+            margin: 5px 20px 7px 22px;
+            -webkit-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1) !important;
+            border-color: #f8f8f8;
+        }
+        .fieldcontainer{
+            margin-bottom: 1%;
+            -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.1) !important;
+        }
+        .fieldcontainer > input{
+            border-color: #efeded !important;
+        }
+
+        .chatbox{
+            height: 350px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            margin: 0 4px 0 15px;
+            padding: 10px;
+        }
+        .selecte>div>h5>span{
+            color: white;
+        }
+
+        #typing-text{
+            font-size: small;
+            top: 55px;
+            text-transform: lowercase;
+            position:absolute;
+        }
+
+        .uread{
+            background: red;
+            border-radius: 100%;
+            font-size: 56%;
+            position: absolute;
+            right: 4%;
+            top: 50%;
+        }
+        .hide{
+            display: none;
+        }
+        .seen{
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            font-size: x-small;
+            font-style: italic;
+            text-align: center;
+        }
+
+        @media (max-width: 768px){
+            .col-xs-8 {
+                -webkit-box-flex: 0;
+                -webkit-flex: 0 0 66.666667%;
+                -ms-flex: 0 0 66.666667%;
+                flex: 0 0 66.666667%;
+                max-width: 66.666667%;
+            }
+            .col-xs-3 {
+                -webkit-box-flex: 0;
+                -webkit-flex: 0 0 25%;
+                -ms-flex: 0 0 25%;
+                flex: 0 0 25%;
+                max-width: 25%;
+            }
+            .col-xs-1 {
+                -webkit-box-flex: 0;
+                -webkit-flex: 0 0 8.333333%;
+                -ms-flex: 0 0 8.333333%;
+                flex: 0 0 8.333333%;
+                max-width: 8.333333%;
+            }
+            .col-xs-11 {
+                -webkit-box-flex: 0;
+                -webkit-flex: 0 0 87.666667%;
+                -ms-flex: 0 0 87.666667%;
+                flex: 0 0 87.666667%;
+                max-width: 87.666667%;
+            }
+            .col-xs-2 {
+                -webkit-box-flex: 0;
+                -webkit-flex: 0 0 17.333333%;
+                -ms-flex: 0 0 17.333333%;
+                flex: 0 0 17.333333%;
+                max-width: 17.333333%;
+            }
+        }
+        #search_user{
+            height: 71px;
+            padding: .5rem 1.5rem !important;
+        }
+        #suggested-users {
+            display: none;
+            position: absolute;
+            clear: both;
+            z-index: 1;
+            border: 1px solid #bcbcbcad;
+            background-color: whitesmoke;
+            top: 10%;
+            left: 3%;
+            min-width: 94%;
+        }
+
+        .lookups{
+            padding: 16px;
+        }
+
+        .toScroll{
+            background-color: #EBEEF7 !important
+        }
+        .toScroll::-webkit-scrollbar-track
+        {
+        {#           -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);#}
+            background-color: #e7eff3;
+        }
+
+        .toScroll::-webkit-scrollbar
+        {
+            width: 9px;
+            background-color: #F5F5F5;
+        }
+
+        .toScroll::-webkit-scrollbar-thumb
+        {
+            background-color: #C1C5C8;;
+            border-radius: 100px;
+        }
+
+        .conScroll::-webkit-scrollbar-track
+        {
+            background-color: #FAFBFD;
+        }
+
+        .conScroll::-webkit-scrollbar
+        {
+            width: 9px;
+            background-color: #F5F5F5;
+        }
+
+        .conScroll::-webkit-scrollbar-thumb
+        {
+            background-color: #C1C5C8;;
+            border-radius: 100px;
+        }
+
+        .user-list-div{
+            max-height: 350px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        #chat-message{
+            border: 0px !important;
+        }
+        .card-footr{
+            background: white;
+        }
+
+        body, .user-list-div{
+            background: #FAFBFD !important;
+        }
+        .box-typical-full-height{
+            -webkit-box-shadow: 0px 0 1px rgba(0, 0, 0, 0.1) !important;
+            border-color: #f8f8f8;
+        }
+        input.empty {
+            font-family: FontAwesome,sans-serif;
+            font-style: normal;
+            font-weight: normal;
+            text-decoration: inherit;
+        }
+        .from{
+            margin: 0;
+            font-size: 15px;
+            color: #848282;
+            font-weight: 600;
+        }
+        .tBtn{
+            background: #2A8BF2 !important;
+            font-size: small;
+            float: right;
+        }
+
+        .newBtn{
+            background: #2A8BF2 !important;
+            font-size: small;
+            float: right;
+        }
+
+        .acceptBtn{
+            background: white !important;
+            font-size: small;
+            float: right;
+            margin-right: 5px;
+        }
+    </style>
+
+{% endblock css %}
+
+{% block content %}
+    <input id="owner_username" type="hidden" value="{{ request.user.username }}">
+    <div class="container">
+        <h3>{% trans "Chat" %}</h3>
+        <div class="row">
+            <div class="col-md-5" style="padding: 0 4px;">
+                <div class="fieldcontainer">
+                    <input type="text" name="term" id="search_user" class="form-control empty" placeholder="&#xF002;&nbsp;&nbsp; Search" tabindex="1" autocomplete="off">
+                    <div id="suggested-users">
+                    </div>
+                </div>
+                <div class="user-list-div conScroll" style="margin: 6px;">
+                    {% for dialog in object_list %}
+                        {% if dialog.owner == request.user %}
+                            {% with dialog.opponent as user %}
+                                {% render_conversation request.user user opponent_username %}
+                            {% endwith %}
+                        {% else %}
+                            {% with dialog.owner as user %}
+                                {% render_conversation request.user user opponent_username%}
+                            {% endwith %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-7" style="padding: 0;">
+                <section class="card box-typical-full-height">
+                    <div class="card-block" style="padding: 0 !important; background: #EBEEF7;">
+                        <div class="card-head" style="max-height: 70px; min-height: 70px">
+                            <h3 class="card-title" style="text-transform: capitalize;">
+                                {% if myOpponent %}
+                                    {{ myOpponent.prop }}, {{ myOpponent.number }}
+                                    <p class="from">
+                                        From : {{ myOpponent.location }}
+                                    </p>
+                                {% endif %}
+                                <span style="display: none;" id="typing-text">
+                                   {% trans "typing..." %}
+                                </span>
+
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row chatbox toScroll" id="messages">
+                                <div class="col-md-12">
+                                    <div class="messages-container">
+                                        <div class="messages">
+                                            {% for msg in active_dialog.messages.all %}
+                                                {% render_thread request.user msg %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footr">
+                            <div class="row">
+                                <div class="col-md-11 col-xs-11">
+                                        <textarea rows="3" id="chat-message" class="form-control message"
+                                                  placeholder="{% trans 'Write a message' %}"></textarea>
+
+                                </div>
+
+                                <div class="col-md-1 col-xs-1">
+                                    <a id="btn-send-message"  class="sendBtn">
+                                        <img src="{% static 'img/send.png' %}">
+                                    </a>
+                                </div>
+
+                                <div class="col-md-12" style="padding-right: 22px;">
+                                    <button class="btn btn-default tBtn" type="button">HACER OFERTA</button>
+                                    <button class="btn btn-default tBtn" type="button">SOLICITAR VISITA</button>
+                                    <br>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmonitor/1.2.0/scrollMonitor.js"
+            integrity="sha256-BseZlDlA+yL4qu+Voi82iFa5aaifralQEXIjOjaXgeo=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            var websocket = null;
+            var monitor = null;
+
+            var lookupUsersUrl = "{% url 'users-lookup' %}?term=";
+
+            function lookupUsers(term) {
+                var popup = $('#suggested-users');
+                if (term == null || typeof(term) == 'undefined' || term.length < 2) {
+                    popup.html('');
+                    popup.hide();
+                    return;
+                }
+                $.ajax(lookupUsersUrl+term, method='get')
+                    .then(function(res){
+                        popup.html(res);
+                        if (res.length > 0){
+                            popup.fadeIn();
+                        } else {
+                            popup.hide();
+                        }
+                    });
+            }
+
+
+            function initReadMessageHandler(containerMonitor, elem) {
+                var id = $(elem).data('id');
+                var elementWatcher = containerMonitor.create(elem);
+                elementWatcher.enterViewport(function () {
+                    var opponent_username = getOpponnentUsername();
+                    var packet = JSON.stringify({
+                        type: 'read_message',
+                        session_key: '{{ request.session.session_key }}',
+                        username: opponent_username,
+                        message_id: id
+                    });
+                    $(elem).removeClass('msg-unread').addClass('msg-read');
+
+                    var elems = $("#" + opponent_username.split('@')[0].replace('.',''));
+                    var badge = elems.find('.uread');
+                    badge.fadeOut("slow");
+                    websocket.send(packet);
+                });
+            }
+
+            function initScrollMonitor() {
+                var containerElement = $(".messages");
+                var containerMonitor = scrollMonitor.createContainer(containerElement);
+                $('.msg-unread').each(function (i, elem) {
+                    if ($(elem).hasClass('opponent')){
+                        initReadMessageHandler(containerMonitor, elem);
+                    }
+
+                });
+                return containerMonitor
+            }
+
+            function getOpponnentUsername() {
+                return "{{ opponent_username }}";
+            }
+
+            function addNewMessage(packet) {
+
+                var user = $('#owner_username').val();
+
+                if(user === packet.sender_name)
+                    $('.messages').append(packet.myMessage);
+                else{
+                    var audio = new Audio('{% static 'sounds/facebook.mp3' %}');
+                    $('.messages').append(packet.newMessage);
+                    audio.play()
+                }
+
+                scrollToLastMessage()
+            }
+
+            function scrollToLastMessage() {
+                var $msgs = $('#messages');
+                $msgs.animate({"scrollTop": $msgs.prop('scrollHeight')})
+            }
+
+            function setUserOnlineOffline(username, online) {
+                setTimeout(function () {
+                    var elem = $("#" + username.split('@')[0].replace('.',''));
+                    if (online) {
+                        elem.removeClass("userOffline");
+                        elem.addClass("userOnline");
+
+                    } else {
+                        elem.removeClass("userOnline");
+                        elem.addClass("userOffline");
+                    }
+                }, 500)
+            }
+
+            function gone_online() {
+                $("#offline-status").hide();
+                $("#online-status").show();
+            }
+
+            function gone_offline() {
+                $("#online-status").hide();
+                $("#offline-status").show();
+            }
+
+            function flash_user_button(username) {
+                var elem = $("#" + username.split('@')[0].replace('.',''));
+                var badge = elem.find('.uread');
+                badge.fadeOut();
+                badge.text(parseInt(badge[0].innerHTML)+1);
+                badge.fadeIn("slow");
+            }
+
+            function lastPutSeen() {
+                var elem = $('.msg-read').last();
+                if (!$(elem).hasClass('opponent')){
+                    elem.find('.col-md-8').append('<div class="seen">Seen &#10003<div>');
+                }
+            }
+
+            function setupChatWebSocket() {
+                var opponent_username = getOpponnentUsername();
+
+                websocket = new WebSocket(base_ws_server_path + '{{ request.session.session_key }}/' + opponent_username);
+
+                websocket.onopen = function (event) {
+                    var opponent_username = getOpponnentUsername();
+
+                    var onOnlineCheckPacket = JSON.stringify({
+                        type: "check-online",
+                        session_key: '{{ request.session.session_key }}',
+                        username: opponent_username
+                        {#                      Sending username because the user needs to know if his opponent is online #}
+                    });
+                    var onConnectPacket = JSON.stringify({
+                        type: "online",
+                        session_key: '{{ request.session.session_key }}'
+
+                    });
+
+                    websocket.send(onConnectPacket);
+                    websocket.send(onOnlineCheckPacket);
+                    monitor = initScrollMonitor();
+                    lastPutSeen();
+
+                };
+
+
+                window.onbeforeunload = function () {
+
+                    var onClosePacket = JSON.stringify({
+                        type: "offline",
+                        session_key: '{{ request.session.session_key }}',
+                        username: opponent_username,
+                        {# Sending username because to let opponnent know that the user went offline #}
+                    });
+                    websocket.send(onClosePacket);
+                    websocket.close();
+                };
+
+
+                websocket.onmessage = function (event) {
+                    var packet;
+
+                    try {
+                        packet = JSON.parse(event.data);
+                    } catch (e) {
+                        console.log(e);
+                    }
+
+                    switch (packet.type) {
+                        case "new-dialog":
+                            break;
+                        case "user-not-found":
+                            // TODO: dispay some kind of an error that the user is not found
+                            break;
+                        case "gone-online":
+                            if (packet.usernames.indexOf(opponent_username) != -1) {
+                                gone_online();
+                            } else {
+                                gone_offline();
+                            }
+                            for (var i = 0; i < packet.usernames.length; ++i) {
+                                setUserOnlineOffline(packet.usernames[i], true);
+                            }
+                            break;
+                        case "gone-offline":
+                            if (packet.username == opponent_username) {
+                                gone_offline();
+                            }
+                            setUserOnlineOffline(packet.username, false);
+                            break;
+                        case "new-message":
+
+                            var audio = new Audio('{% static 'sounds/facebook.mp3' %}');
+                            var username = packet['sender_name'];
+                            if (username == opponent_username || username == $("#owner_username").val()){
+                                addNewMessage(packet);
+                                if (username == opponent_username) {
+                                    setTimeout(function () {
+                                        initReadMessageHandler(monitor, $("div[data-id='" + packet['message_id'] + "']"));
+                                    },1500);
+                                }
+
+                            } else {
+                                var elem = $("#" + username.split('@')[0].replace('.',''));
+
+                                if (elem.length == 0){
+                                    $(".user-list-div").append(packet['newSender']);
+                                }
+                                else
+                                    flash_user_button(username);
+
+                                audio.play();
+                            }
+                            break;
+                        case "opponent-typing":
+                            var typing_elem = $('#typing-text');
+                            if (!typing_elem.is(":visible")) {
+                                typing_elem.fadeIn();
+                            } else {
+                                typing_elem.stop(true);
+                                typing_elem.fadeIn(0);
+                            }
+                            typing_elem.fadeOut(1000);
+
+                            break;
+                        case "opponent-read-message":
+                            if (packet['username'] != opponent_username) {
+                                $('.seen').fadeOut();
+                                $("div[data-id='" + packet['message_id'] + "']").removeClass('msg-unread').addClass('msg-read').find('.col-md-8').append('<div class="seen">Seen &#10003<div>');
+                            }
+                            break;
+
+                        default:
+                            console.log('error: ', event)
+                    }
+                }
+            }
+
+            function sendMessage(message,type) {
+                var opponent_username = getOpponnentUsername();
+                var newMessagePacket = JSON.stringify({
+                    type: 'new-message',
+                    kind: type,
+                    session_key: '{{ request.session.session_key }}',
+                    username: opponent_username,
+                    message: message
+                });
+                websocket.send(newMessagePacket)
+            }
+
+            $('#search_user').keyup(function(e){
+                var input = $(this);
+                {#                if(input.val().length === 0) {#}
+                {#                    input.addClass('empty');#}
+                {#                } else {#}
+                {#                    input.removeClass('empty');#}
+                {#                }#}
+                setTimeout(function(){
+                    var term = e.currentTarget.value;
+                    lookupUsers(term);
+                }, 500)  // Trigger searching only after 500 ms
+            });
+
+            $('#chat-message').keypress(function (e) {
+                if (e.which == 13 && this.value) {
+                    sendMessage(this.value);
+                    this.value = "";
+                    return false
+                } else {
+                    var opponent_username = getOpponnentUsername();
+                    var packet = JSON.stringify({
+                        type: 'is-typing',
+                        session_key: '{{ request.session.session_key }}',
+                        username: opponent_username,
+                        typing: true
+                    });
+                    websocket.send(packet);
+                }
+            });
+
+            $('#btn-send-message').click(function (e) {
+                var $chatInput = $('#chat-message');
+                var msg = $chatInput.val();
+                if (!msg) return;
+                sendMessage($chatInput.val(),0);
+                $chatInput.val('')
+            });
+
+            $('.tBtn').click(function (e) {
+                var msg = "Okay great, You should check out Logan - don't read up too much about it or watch the trailer-it will spoil the movie for you. it has some adorable moments";
+                sendMessage(msg,1);
+            });
+
+
+            setupChatWebSocket();
+            scrollToLastMessage();
+        });
+
+    </script>
+{% endblock %}
